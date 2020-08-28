@@ -1,0 +1,2 @@
+zentlix_structure:
+  resource: '@RouteBundle/Resources/config/routing.xml'

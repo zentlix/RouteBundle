@@ -1,0 +1,9 @@
+doctrine:
+  orm:
+    auto_mapping: true
+    mappings:
+      zentlix_route_route:
+        is_bundle: false
+        type: annotation
+        dir: '%kernel.project_dir%/vendor/zentlix/route-bundle/src/Domain/Route/Entity'
+        prefix: Zentlix\RouteBundle\Domain\Route\Entity

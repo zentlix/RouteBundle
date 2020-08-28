@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<container xmlns="http://symfony.com/schema/dic/services"
+           xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+           xsi:schemaLocation="http://symfony.com/schema/dic/services
+        http://symfony.com/schema/dic/services/services-1.0.xsd">
+
+    <services>
+        <defaults public="false"/>
+
+        <!-- Command bus -->
+        <service id="zentlix_route.path.update_handler" class="Zentlix\RouteBundle\Application\Command\Path\UpdateHandler">
+            <argument type="service" id="zentlix_route.route_unique_urls_in_array_specification"/>
+            <argument type="service" id="zentlix_route.route_is_url_valid_specification"/>
+            <argument type="service" id="doctrine.orm.entity_manager"/>
+            <argument type="service" id="event_dispatcher"/>
+            <argument type="service" id="Zentlix\RouteBundle\Domain\Route\Repository\RouteRepository"/>
+            <argument type="service" id="zentlix_route.service.cache"/>
+            <tag name="messenger.message_handler"/>
+        </service>
+
+        <service id="zentlix_route.route.create_handler" class="Zentlix\RouteBundle\Application\Command\Route\CreateHandler">
+            <argument type="service" id="doctrine.orm.entity_manager"/>
+            <argument type="service" id="event_dispatcher"/>
+            <argument type="service" id="zentlix_route.route_unique_url_specification"/>
+            <argument type="service" id="zentlix_route.route_unique_name_specification"/>
+            <argument type="service" id="zentlix_main.bundle.exist_bundle_specification"/>
+            <argument type="service" id="zentlix_main.site_exist_site_specification"/>
+            <argument type="service" id="zentlix_main.site_exist_template_file_specification"/>
+            <argument type="service" id="Zentlix\MainBundle\Domain\Site\Repository\SiteRepository"/>
+            <argument type="service" id="zentlix_route.service.cache"/>
+            <tag name="messenger.message_handler"/>
+        </service>
+        <service id="zentlix_route.route.update_handler" class="Zentlix\RouteBundle\Application\Command\Route\UpdateHandler">
+            <argument type="service" id="doctrine.orm.entity_manager"/>
+            <argument type="service" id="event_dispatcher"/>
+            <argument type="service" id="zentlix_route.route_unique_url_specification"/>
+            <argument type="service" id="zentlix_main.site_exist_site_specification"/>
+            <argument type="service" id="zentlix_main.site_exist_template_file_specification"/>
+            <argument type="service" id="Zentlix\MainBundle\Domain\Site\Repository\SiteRepository"/>
+            <argument type="service" id="zentlix_route.service.cache"/>
+            <tag name="messenger.message_handler"/>
+        </service>
+        <service id="zentlix_route.route.delete_handler" class="Zentlix\RouteBundle\Application\Command\Route\DeleteHandler">
+            <argument type="service" id="doctrine.orm.entity_manager"/>
+            <argument type="service" id="event_dispatcher"/>
+            <argument type="service" id="zentlix_route.service.cache"/>
+            <tag name="messenger.message_handler"/>
+        </service>
+
+        <!-- Query bus -->
+        <service id="zentlix_route.route.data_table_query_handler" class="Zentlix\RouteBundle\Application\Query\Route\DataTableQueryHandler">
+            <argument type="service" id="zentlix_main.data_table_service"/>
+            <tag name="messenger.message_handler"/>
+        </service>
+
+        <service id="zentlix_route.blank.index_query_handler" class="Zentlix\RouteBundle\Application\Query\Blank\IndexQueryHandler">
+            <argument type="service" id="Zentlix\RouteBundle\Domain\Route\Repository\RouteRepository"/>
+            <tag name="messenger.message_handler"/>
+        </service>
+        <service id="zentlix_route.blank.element_query_handler" class="Zentlix\RouteBundle\Application\Query\Blank\ElementQueryHandler">
+            <argument type="service" id="Zentlix\RouteBundle\Domain\Route\Repository\RouteRepository"/>
+            <tag name="messenger.message_handler"/>
+        </service>
+    </services>
+</container>

@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<container xmlns="http://symfony.com/schema/dic/services"
+           xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+           xsi:schemaLocation="http://symfony.com/schema/dic/services
+        http://symfony.com/schema/dic/services/services-1.0.xsd">
+
+    <services>
+        <service id="Zentlix\RouteBundle\EventSubscriber\InstallBundleSubscriber">
+            <argument type="service" id="zentlix_main.bundles"/>
+            <argument type="service" id="zentlix_route.service.routes"/>
+            <argument type="service" id="Zentlix\MainBundle\Domain\Site\Repository\SiteRepository"/>
+            <tag name="kernel.event_subscriber"/>
+        </service>
+
+        <service id="Zentlix\RouteBundle\EventSubscriber\SidebarSubscriber">
+            <tag name="kernel.event_subscriber"/>
+        </service>
+
+        <service id="Zentlix\RouteBundle\EventSubscriber\SiteSubscriber">
+            <argument type="service" id="zentlix_route.service.routes"/>
+            <tag name="kernel.event_subscriber"/>
+        </service>
+    </services>
+</container>

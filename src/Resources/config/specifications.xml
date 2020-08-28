@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<container xmlns="http://symfony.com/schema/dic/services"
+           xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+           xsi:schemaLocation="http://symfony.com/schema/dic/services
+        http://symfony.com/schema/dic/services/services-1.0.xsd">
+
+    <services>
+        <service id="zentlix_route.route_is_url_valid_specification"
+                 class="Zentlix\RouteBundle\Domain\Route\Specification\IsUrlValidSpecification">
+            <argument type="service" id="translator"/>
+        </service>
+
+        <service id="zentlix_route.route_unique_urls_in_array_specification"
+                 class="Zentlix\RouteBundle\Domain\Route\Specification\UniqueUrlsInArraySpecification">
+            <argument type="service" id="translator"/>
+        </service>
+
+        <service id="zentlix_route.route_unique_url_specification"
+                 class="Zentlix\RouteBundle\Domain\Route\Specification\UniqueUrlSpecification">
+            <argument type="service" id="translator"/>
+            <argument type="service" id="Zentlix\RouteBundle\Domain\Route\Repository\RouteRepository"/>
+        </service>
+
+        <service id="zentlix_route.route_unique_name_specification"
+                 class="Zentlix\RouteBundle\Domain\Route\Specification\UniqueNameSpecification">
+            <argument type="service" id="translator"/>
+            <argument type="service" id="Zentlix\RouteBundle\Domain\Route\Repository\RouteRepository"/>
+        </service>
+    </services>
+</container>

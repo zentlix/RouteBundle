@@ -1,0 +1,13 @@
+<?xml version="1.0" ?>
+<container xmlns="http://symfony.com/schema/dic/services"
+           xmlns:doctrine="http://symfony.com/schema/dic/doctrine">
+    <services>
+        <service id="Zentlix\RouteBundle\EventListener\RouteListener">
+            <argument type="service" id="Zentlix\MainBundle\Domain\Bundle\Repository\BundleRepository"/>
+            <argument type="service" id="Zentlix\MainBundle\Domain\Site\Repository\SiteRepository"/>
+            <tag name="doctrine.orm.entity_listener"
+                 event="prePersist"
+                 entity="Zentlix\RouteBundle\Domain\Route\Entity\Route"/>
+        </service>
+    </services>
+</container>

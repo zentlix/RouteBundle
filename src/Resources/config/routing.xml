@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<routes xmlns="http://symfony.com/schema/routing"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://symfony.com/schema/routing
+        https://symfony.com/schema/routing/routing-1.0.xsd">
+
+    <route id="admin.paths.update" path="/backend/settings/paths/edit">
+        <condition>request.isXmlHttpRequest()</condition>
+        <default key="_controller">zentlix_route.controller.admin.path_controller::update</default>
+    </route>
+
+    <route id="admin.route.list" path="/backend/settings/routes/list">
+        <condition>request.isXmlHttpRequest()</condition>
+        <default key="_controller">zentlix_route.controller.admin.route_controller::index</default>
+    </route>
+    <route id="admin.route.create" path="/backend/settings/routes/create">
+        <default key="_controller">zentlix_route.controller.admin.route_controller::create</default>
+        <condition>request.isXmlHttpRequest()</condition>
+    </route>
+    <route id="admin.route.update" path="/backend/settings/routes/{id}/edit">
+        <default key="_controller">zentlix_route.controller.admin.route_controller::update</default>
+        <condition>request.isXmlHttpRequest()</condition>
+    </route>
+    <route id="admin.route.delete" path="/backend/settings/routes/{id}/delete">
+        <default key="_controller">zentlix_route.controller.admin.route_controller::delete</default>
+        <condition>request.isXmlHttpRequest()</condition>
+    </route>
+
+    <import resource="zentlix_route.service.routes_loader::loadRoutes" type="service"/>
+</routes>

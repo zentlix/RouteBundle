@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<container xmlns="http://symfony.com/schema/dic/services"
+           xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+           xsi:schemaLocation="http://symfony.com/schema/dic/services
+        http://symfony.com/schema/dic/services/services-1.0.xsd">
+
+    <services>
+        <defaults autowire="false" autoconfigure="false" public="false"/>
+
+        <service id="zentlix_route.service.cache" class="Zentlix\RouteBundle\Domain\Cache\Service\Cache">
+            <argument type="string">%kernel.cache_dir%</argument>
+        </service>
+
+        <service id="zentlix_route.service.controllers" class="Zentlix\RouteBundle\Domain\Route\Service\Controllers">
+            <argument type="tagged_iterator" tag="zentlix.route.controller"/>
+        </service>
+        <service id="zentlix_route.service.routes" class="Zentlix\RouteBundle\Domain\Route\Service\Routes">
+            <argument type="service" id="doctrine.orm.entity_manager"/>
+            <argument type="service" id="zentlix_main.bundles"/>
+            <argument type="service" id="zentlix_main.command_bus"/>
+        </service>
+        <service id="Zentlix\RouteBundle\Domain\Route\Service\Routes" alias="zentlix_route.service.routes"/>
+        <service id="zentlix_route.service.routes_loader"
+                 class="Zentlix\RouteBundle\Domain\Route\Service\ZentlixRoutesLoader" public="true">
+            <argument type="service" id="doctrine.orm.entity_manager"/>
+        </service>
+        <service id="Zentlix\RouteBundle\Domain\Route\Service\ZentlixRoutesLoader"
+                 alias="zentlix_route.service.routes_loader" public="true"/>
+
+        <service id="zentlix_route.route_bundle" class="Zentlix\RouteBundle\RouteBundle">
+            <tag name="zentlix_bundle"/>
+        </service>
+    </services>
+</container>
