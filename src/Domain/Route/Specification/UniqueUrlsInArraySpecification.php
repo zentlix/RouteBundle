@@ -14,10 +14,9 @@ namespace Zentlix\RouteBundle\Domain\Route\Specification;
 
 use Doctrine\ORM\NonUniqueResultException;
 use Symfony\Contracts\Translation\TranslatorInterface;
-use Zentlix\MainBundle\Domain\Shared\Specification\AbstractSpecification;
 use Zentlix\RouteBundle\Domain\Route\Entity\Route;
 
-final class UniqueUrlsInArraySpecification extends AbstractSpecification
+final class UniqueUrlsInArraySpecification
 {
     private TranslatorInterface $translator;
 
@@ -26,15 +25,10 @@ final class UniqueUrlsInArraySpecification extends AbstractSpecification
         $this->translator = $translator;
     }
 
-    public function isUnique(array $urls): bool
-    {
-        return $this->isSatisfiedBy($urls);
-    }
-
-    public function isSatisfiedBy($value): bool
+    public function isUnique(array $urls): void
     {
         /** @var Route $route */
-        foreach ($value as $key => $route) {
+        foreach ($urls as $key => $route) {
             $value[$key] = $route->getCleanUrl();
         }
 
@@ -45,12 +39,10 @@ final class UniqueUrlsInArraySpecification extends AbstractSpecification
                 throw new NonUniqueResultException($this->translator->trans('zentlix_route.route.not_unique'));
             }
         }
-
-        return true;
     }
 
-    public function __invoke(array $urls)
+    public function __invoke(array $urls): void
     {
-        return $this->isUnique($urls);
+        $this->isUnique($urls);
     }
 }

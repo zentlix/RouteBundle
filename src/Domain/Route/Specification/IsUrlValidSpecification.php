@@ -13,10 +13,9 @@ declare(strict_types=1);
 namespace Zentlix\RouteBundle\Domain\Route\Specification;
 
 use Symfony\Contracts\Translation\TranslatorInterface;
-use Zentlix\MainBundle\Domain\Shared\Specification\AbstractSpecification;
 use Zentlix\RouteBundle\Domain\Route\Entity\Route;
 
-final class IsUrlValidSpecification extends AbstractSpecification
+final class IsUrlValidSpecification
 {
     private TranslatorInterface $translator;
 
@@ -25,22 +24,15 @@ final class IsUrlValidSpecification extends AbstractSpecification
         $this->translator = $translator;
     }
 
-    public function isValid(string $url): bool
+    public function isValid(string $url): void
     {
-        return $this->isSatisfiedBy($url);
-    }
-
-    public function isSatisfiedBy($value): bool
-    {
-        if(!preg_match("/^[a-z0-9-\/]+$/", Route::cleanUrl($value))) {
-            throw new \Exception(sprintf($this->translator->trans('zentlix_route.route.not_valid'), $value));
+        if(!preg_match("/^[a-z0-9-\/]+$/", Route::cleanUrl($url))) {
+            throw new \DomainException(sprintf($this->translator->trans('zentlix_route.route.not_valid'), $url));
         }
-
-        return true;
     }
 
-    public function __invoke(string $url)
+    public function __invoke(string $url): void
     {
-        return $this->isValid($url);
+        $this->isValid($url);
     }
 }

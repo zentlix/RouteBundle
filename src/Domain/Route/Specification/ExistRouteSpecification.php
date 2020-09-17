@@ -14,10 +14,10 @@ namespace Zentlix\RouteBundle\Domain\Route\Specification;
 
 use Symfony\Contracts\Translation\TranslatorInterface;
 use Zentlix\MainBundle\Application\Query\NotFoundException;
-use Zentlix\MainBundle\Domain\Shared\Specification\AbstractSpecification;
 use Zentlix\RouteBundle\Domain\Route\Repository\RouteRepository;
+use function is_null;
 
-final class ExistRouteSpecification extends AbstractSpecification
+final class ExistRouteSpecification
 {
     private RouteRepository $routeRepository;
     private TranslatorInterface $translator;
@@ -28,24 +28,15 @@ final class ExistRouteSpecification extends AbstractSpecification
         $this->translator = $translator;
     }
 
-    public function isExist(int $routeId): bool
+    public function isExist(int $routeId): void
     {
-        return $this->isSatisfiedBy($routeId);
-    }
-
-    public function isSatisfiedBy($value): bool
-    {
-        $route = $this->routeRepository->find($value);
-
-        if(is_null($route)) {
-            throw new NotFoundException(\sprintf($this->translator->trans('zentlix_route.route.not_exist'), $value));
+        if(is_null($this->routeRepository->find($routeId))) {
+            throw new NotFoundException(sprintf($this->translator->trans('zentlix_route.route.not_exist'), $routeId));
         }
-
-        return true;
     }
 
-    public function __invoke(int $routeId)
+    public function __invoke(int $routeId): void
     {
-        return $this->isExist($routeId);
+        $this->isExist($routeId);
     }
 }

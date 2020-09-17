@@ -14,10 +14,9 @@ namespace Zentlix\RouteBundle\Domain\Route\Specification;
 
 use Doctrine\ORM\NonUniqueResultException;
 use Symfony\Contracts\Translation\TranslatorInterface;
-use Zentlix\MainBundle\Domain\Shared\Specification\AbstractSpecification;
 use Zentlix\RouteBundle\Domain\Route\Repository\RouteRepository;
 
-final class UniqueNameSpecification extends AbstractSpecification
+final class UniqueNameSpecification
 {
     private TranslatorInterface $translator;
     private RouteRepository $routeRepository;
@@ -28,24 +27,15 @@ final class UniqueNameSpecification extends AbstractSpecification
         $this->routeRepository = $routeRepository;
     }
 
-    public function isUnique(string $name): bool
+    public function isUnique(string $name): void
     {
-        return $this->isSatisfiedBy($name);
-    }
-
-    public function isSatisfiedBy($value): bool
-    {
-        $route = $this->routeRepository->findOneByName($value);
-
-        if($route) {
-            throw new NonUniqueResultException(sprintf($this->translator->trans('zentlix_route.route.name_already_exist'), $value));
+        if($this->routeRepository->findOneByName($name)) {
+            throw new NonUniqueResultException(sprintf($this->translator->trans('zentlix_route.route.name_already_exist'), $name));
         }
-
-        return true;
     }
 
-    public function __invoke(string $name)
+    public function __invoke(string $name): void
     {
-        return $this->isUnique($name);
+        $this->isUnique($name);
     }
 }

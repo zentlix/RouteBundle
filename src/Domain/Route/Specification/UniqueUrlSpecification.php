@@ -14,11 +14,10 @@ namespace Zentlix\RouteBundle\Domain\Route\Specification;
 
 use Doctrine\ORM\NonUniqueResultException;
 use Symfony\Contracts\Translation\TranslatorInterface;
-use Zentlix\MainBundle\Domain\Shared\Specification\AbstractSpecification;
 use Zentlix\RouteBundle\Domain\Route\Entity\Route;
 use Zentlix\RouteBundle\Domain\Route\Repository\RouteRepository;
 
-final class UniqueUrlSpecification extends AbstractSpecification
+final class UniqueUrlSpecification
 {
     private TranslatorInterface $translator;
     private RouteRepository $routeRepository;
@@ -29,29 +28,22 @@ final class UniqueUrlSpecification extends AbstractSpecification
         $this->routeRepository = $routeRepository;
     }
 
-    public function isUnique(string $url, int $siteId): bool
+    public function isUnique(string $url, int $siteId): void
     {
-        return $this->isSatisfiedBy([$url, $siteId]);
-    }
-
-    public function isSatisfiedBy($value): bool
-    {
-        $routes = $this->routeRepository->wherePathLike(Route::cleanUrl($value[0]));
+        $routes = $this->routeRepository->wherePathLike(Route::cleanUrl($url));
 
         /** @var Route $route */
         foreach ($routes as $route) {
-            if($route->getSite()->getId() === $value[1]) {
-                if($route->getCleanUrl() === Route::cleanUrl($value[0])) {
-                    throw new NonUniqueResultException(sprintf($this->translator->trans('zentlix_route.route.already_exist'), $value[0]));
+            if($route->getSite()->getId() === $siteId) {
+                if($route->getCleanUrl() === Route::cleanUrl($url)) {
+                    throw new NonUniqueResultException(sprintf($this->translator->trans('zentlix_route.route.already_exist'), $url));
                 }
             }
         }
-
-        return true;
     }
 
-    public function __invoke(string $url, int $siteId)
+    public function __invoke(string $url, int $siteId): void
     {
-        return $this->isUnique($url, $siteId);
+        $this->isUnique($url, $siteId);
     }
 }
