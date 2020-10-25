@@ -10,11 +10,11 @@
 
 declare(strict_types=1);
 
-namespace Zentlix\RouteBundle\Application\Query\Blank;
+namespace Zentlix\RouteBundle\Application\Query\Template;
 
 use Zentlix\MainBundle\Infrastructure\Share\Bus\QueryInterface;
 
-class ElementQuery implements QueryInterface
+class TemplateQuery implements QueryInterface
 {
     private string $route;
 

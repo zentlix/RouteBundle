@@ -13,7 +13,7 @@ declare(strict_types=1);
 namespace Zentlix\RouteBundle\Domain\Route\Specification;
 
 use Symfony\Contracts\Translation\TranslatorInterface;
-use Zentlix\MainBundle\Application\Query\NotFoundException;
+use Zentlix\MainBundle\Infrastructure\Share\Bus\NotFoundException;
 use Zentlix\RouteBundle\Domain\Route\Repository\RouteRepository;
 use function is_null;
 

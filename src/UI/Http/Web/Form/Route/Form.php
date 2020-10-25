@@ -17,30 +17,25 @@ use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Symfony\Contracts\Translation\TranslatorInterface;
 use Zentlix\MainBundle\Domain\Bundle\Repository\BundleRepository;
 use Zentlix\MainBundle\Domain\Site\Repository\SiteRepository;
-use Zentlix\MainBundle\MainBundle;
 use Zentlix\MainBundle\UI\Http\Web\FormType\AbstractForm;
 use Zentlix\MainBundle\UI\Http\Web\Type;
 use Zentlix\RouteBundle\Application\Command\Route\CreateCommand;
-use Zentlix\RouteBundle\Domain\Route\Service\Controllers;
-use Zentlix\RouteBundle\UI\Http\Web\Controller\BlankController;
+use Zentlix\RouteBundle\RouteBundle;
 
 class Form extends AbstractForm
 {
     protected EventDispatcherInterface $eventDispatcher;
     protected TranslatorInterface $translator;
-    protected Controllers $controllers;
     protected BundleRepository $bundleRepository;
     protected SiteRepository $siteRepository;
 
     public function __construct(EventDispatcherInterface $eventDispatcher,
                                 TranslatorInterface $translator,
-                                Controllers $controllers,
                                 BundleRepository $bundleRepository,
                                 SiteRepository $siteRepository)
     {
         $this->eventDispatcher = $eventDispatcher;
         $this->translator = $translator;
-        $this->controllers = $controllers;
         $this->bundleRepository = $bundleRepository;
         $this->siteRepository = $siteRepository;
     }
@@ -49,46 +44,39 @@ class Form extends AbstractForm
     {
         /** @var CreateCommand $command */
         $command = $builder->getData();
+        $routeBundleId = $this->bundleRepository->getOneByClass(RouteBundle::class)->getId();
+        if(is_null($command->site)) {
+            $command->site = array_values($this->siteRepository->assoc())[0];
+        }
 
         $builder
-            ->add('site', Type\ChoiceType::class, [
-                'choices'  => $this->siteRepository->assoc(),
-                'label'    => 'zentlix_main.site.site',
-                'update'   => true
-            ])
             ->add('url', Type\TextType::class, [
                 'label'   =>'zentlix_main.site.site_url',
                 'prepend' => (int) $command->site > 0 ? 'https://' . $this->siteRepository->get($command->site)->getUrl() . '/' : ''
             ])
-            ->add('title', Type\TextType::class, [
-                'label' => 'zentlix_main.title'
+            ->add('active', Type\CheckboxType::class, [
+                'label' => 'zentlix_route.active'
             ])
-            ->add('controller', Type\ChoiceType::class, [
-                'label'   => 'zentlix_route.controller',
-                'choices' => $this->controllers->assoc(),
-                'update'  => true
-            ])
-            ->add('name', Type\TextType::class, [
-                'label'    => 'zentlix_route.route.name'
-            ])
-            ->add('bundle', Type\HiddenType::class, [
-                'data' => $this->bundleRepository->getOneByClass(MainBundle::class)->getId()
-            ]);
+            ->add('site', Type\HiddenType::class);
 
-        if($command->controller) {
-            $builder->add('action', Type\ChoiceType::class, [
-                'label'   => 'zentlix_main.action',
-                'choices' => $this->controllers->getActions($command->controller)
-            ]);
+        // only for additional routes
+        if($command->bundle === $routeBundleId || is_null($command->bundle)) {
+            $builder
+                ->add('title', Type\TextType::class, [
+                    'label' => 'zentlix_main.title',
+                    'data'  => $this->translator->trans($command->title)
+                ])
+                ->add('name', Type\TextType::class, [
+                    'label' => 'zentlix_route.route.name',
+                    'data'  => $this->translator->trans($command->name)
+                ])
+                ->add('bundle', Type\HiddenType::class, [
+                    'data' => $routeBundleId
+                ])
+                ->add('template', Type\ChoiceType::class, [
+                    'choices'  => $this->siteRepository->get($command->site)->getTemplate()->getConfigParam('route'),
+                    'label'    => 'zentlix_main.template'
+                ]);
         }
-
-        if((int) $command->site > 0 && $command->controller === BlankController::class) {
-            $builder->add('template', Type\ChoiceType::class, [
-                'choices'  => $this->siteRepository->get($command->site)->getTemplate()->getConfigParam('route'),
-                'label'    => 'zentlix_main.template',
-                'required' => false
-            ]);
-        }
-
     }
 }

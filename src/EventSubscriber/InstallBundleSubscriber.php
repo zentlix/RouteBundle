@@ -18,7 +18,7 @@ use Zentlix\MainBundle\Domain\Bundle\Event\AfterInstall;
 use Zentlix\MainBundle\Domain\Bundle\Service\Bundles;
 use Zentlix\MainBundle\Domain\Site\Repository\SiteRepository;
 use Zentlix\RouteBundle\Domain\Route\Service\Routes;
-use Zentlix\RouteBundle\RouteSupportInterface;
+use Zentlix\RouteBundle\Infrastructure\Share\RouteSupportInterface;
 
 class InstallBundleSubscriber implements EventSubscriberInterface
 {

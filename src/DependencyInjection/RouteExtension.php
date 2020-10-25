@@ -27,7 +27,6 @@ class RouteExtension extends Extension implements PrependExtensionInterface
 
         $loader->load('bus.xml');
         $loader->load('controllers.xml');
-        $loader->load('datatables.xml');
         $loader->load('form_types.xml');
         $loader->load('listeners.xml');
         $loader->load('repositories.xml');
@@ -40,5 +39,6 @@ class RouteExtension extends Extension implements PrependExtensionInterface
     {
         $loader = new YamlFileLoader($container, new FileLocator(\dirname(__DIR__).'/Resources/config'));
         $loader->load('doctrine.yaml');
+        $loader->load('twig.yaml');
     }
 }

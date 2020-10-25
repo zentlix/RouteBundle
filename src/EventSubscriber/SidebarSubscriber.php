@@ -32,7 +32,7 @@ class SidebarSubscriber implements EventSubscriberInterface
 
         $settings
             ->addChildren('zentlix_route.route.routes')
-            ->generateUrl('admin.paths.update')
+            ->generateUrl('admin.route.list')
             ->sort(125);
     }
 }

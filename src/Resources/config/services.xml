@@ -10,10 +10,6 @@
         <service id="zentlix_route.service.cache" class="Zentlix\RouteBundle\Domain\Cache\Service\Cache">
             <argument type="string">%kernel.cache_dir%</argument>
         </service>
-
-        <service id="zentlix_route.service.controllers" class="Zentlix\RouteBundle\Domain\Route\Service\Controllers">
-            <argument type="tagged_iterator" tag="zentlix.route.controller"/>
-        </service>
         <service id="zentlix_route.service.routes" class="Zentlix\RouteBundle\Domain\Route\Service\Routes">
             <argument type="service" id="doctrine.orm.entity_manager"/>
             <argument type="service" id="zentlix_main.bundles"/>

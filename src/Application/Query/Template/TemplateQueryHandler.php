@@ -10,12 +10,12 @@
 
 declare(strict_types=1);
 
-namespace Zentlix\RouteBundle\Application\Query\Blank;
+namespace Zentlix\RouteBundle\Application\Query\Template;
 
-use Zentlix\MainBundle\Application\Query\QueryHandlerInterface;
+use Zentlix\MainBundle\Infrastructure\Share\Bus\QueryHandlerInterface;
 use Zentlix\RouteBundle\Domain\Route\Repository\RouteRepository;
 
-class ElementQueryHandler implements QueryHandlerInterface
+class TemplateQueryHandler implements QueryHandlerInterface
 {
     private RouteRepository $routeRepository;
 
@@ -24,9 +24,9 @@ class ElementQueryHandler implements QueryHandlerInterface
         $this->routeRepository = $routeRepository;
     }
 
-    public function __invoke(IndexQuery $indexQuery)
+    public function __invoke(TemplateQuery $templateQuery)
     {
-        $route = $this->routeRepository->findOneByName($indexQuery->getRoute());
+        $route = $this->routeRepository->findOneByName($templateQuery->getRoute());
 
         return $route ? $route->getTemplate() : null;
     }

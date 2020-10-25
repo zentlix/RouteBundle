@@ -19,7 +19,7 @@ use Zentlix\MainBundle\Domain\Bundle\Service\Bundles;
 use Zentlix\MainBundle\Domain\Site\Entity\Site;
 use Zentlix\MainBundle\Infrastructure\Share\Bus\CommandBus;
 use Zentlix\RouteBundle\Domain\Route\Entity\Route;
-use Zentlix\RouteBundle\RouteSupportInterface;
+use Zentlix\RouteBundle\Infrastructure\Share\RouteSupportInterface;
 
 class Routes
 {

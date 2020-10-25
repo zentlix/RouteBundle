@@ -8,16 +8,6 @@
         <defaults public="false"/>
 
         <!-- Command bus -->
-        <service id="zentlix_route.path.update_handler" class="Zentlix\RouteBundle\Application\Command\Path\UpdateHandler">
-            <argument type="service" id="zentlix_route.route_unique_urls_in_array_specification"/>
-            <argument type="service" id="zentlix_route.route_is_url_valid_specification"/>
-            <argument type="service" id="doctrine.orm.entity_manager"/>
-            <argument type="service" id="event_dispatcher"/>
-            <argument type="service" id="Zentlix\RouteBundle\Domain\Route\Repository\RouteRepository"/>
-            <argument type="service" id="zentlix_route.service.cache"/>
-            <tag name="messenger.message_handler"/>
-        </service>
-
         <service id="zentlix_route.route.create_handler" class="Zentlix\RouteBundle\Application\Command\Route\CreateHandler">
             <argument type="service" id="doctrine.orm.entity_manager"/>
             <argument type="service" id="event_dispatcher"/>
@@ -48,16 +38,7 @@
         </service>
 
         <!-- Query bus -->
-        <service id="zentlix_route.route.data_table_query_handler" class="Zentlix\RouteBundle\Application\Query\Route\DataTableQueryHandler">
-            <argument type="service" id="zentlix_main.data_table_service"/>
-            <tag name="messenger.message_handler"/>
-        </service>
-
-        <service id="zentlix_route.blank.index_query_handler" class="Zentlix\RouteBundle\Application\Query\Blank\IndexQueryHandler">
-            <argument type="service" id="Zentlix\RouteBundle\Domain\Route\Repository\RouteRepository"/>
-            <tag name="messenger.message_handler"/>
-        </service>
-        <service id="zentlix_route.blank.element_query_handler" class="Zentlix\RouteBundle\Application\Query\Blank\ElementQueryHandler">
+        <service id="zentlix_route.template.template_query_handler" class="Zentlix\RouteBundle\Application\Query\Template\TemplateQueryHandler">
             <argument type="service" id="Zentlix\RouteBundle\Domain\Route\Repository\RouteRepository"/>
             <tag name="messenger.message_handler"/>
         </service>

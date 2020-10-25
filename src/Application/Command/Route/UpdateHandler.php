@@ -14,10 +14,10 @@ namespace Zentlix\RouteBundle\Application\Command\Route;
 
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
-use Zentlix\MainBundle\Application\Command\CommandHandlerInterface;
 use Zentlix\MainBundle\Domain\Site\Specification\ExistTemplateFileSpecification;
 use Zentlix\MainBundle\Domain\Site\Repository\SiteRepository;
 use Zentlix\MainBundle\Domain\Site\Specification\ExistSiteSpecification;
+use Zentlix\MainBundle\Infrastructure\Share\Bus\CommandHandlerInterface;
 use Zentlix\RouteBundle\Domain\Cache\Service\Cache;
 use Zentlix\RouteBundle\Domain\Route\Event\Route\BeforeUpdate;
 use Zentlix\RouteBundle\Domain\Route\Event\Route\AfterUpdate;

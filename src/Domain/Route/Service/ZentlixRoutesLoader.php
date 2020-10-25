@@ -32,7 +32,7 @@ class ZentlixRoutesLoader implements RouteLoaderInterface
         $collection = new RouteCollection();
 
         $routeRepository = $this->entityManager->getRepository(FrontendRoute::class);
-        $routes = $routeRepository->findAll();
+        $routes = $routeRepository->findActive();
 
         /** @var FrontendRoute $route */
         foreach ($routes as $route) {

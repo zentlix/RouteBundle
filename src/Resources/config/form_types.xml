@@ -3,16 +3,9 @@
            xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
            xsi:schemaLocation="http://symfony.com/schema/dic/services http://symfony.com/schema/dic/services/services-1.0.xsd">
     <services>
-        <service id="zentlix_route.path.update_form" class="Zentlix\RouteBundle\UI\Http\Web\Form\Path\UpdateForm">
-            <argument type="service" id="Zentlix\MainBundle\Domain\Site\Repository\SiteRepository"/>
-            <argument type="service" id="router"/>
-            <tag name="form.type"/>
-        </service>
-
         <service id="zentlix_route.route.create_form" class="Zentlix\RouteBundle\UI\Http\Web\Form\Route\CreateForm">
             <argument type="service" id="event_dispatcher"/>
             <argument type="service" id="translator"/>
-            <argument type="service" id="zentlix_route.service.controllers"/>
             <argument type="service" id="Zentlix\MainBundle\Domain\Bundle\Repository\BundleRepository"/>
             <argument type="service" id="Zentlix\MainBundle\Domain\Site\Repository\SiteRepository"/>
             <tag name="form.type"/>
@@ -20,14 +13,8 @@
         <service id="zentlix_route.route.update_form" class="Zentlix\RouteBundle\UI\Http\Web\Form\Route\UpdateForm">
             <argument type="service" id="event_dispatcher"/>
             <argument type="service" id="translator"/>
-            <argument type="service" id="zentlix_route.service.controllers"/>
             <argument type="service" id="Zentlix\MainBundle\Domain\Bundle\Repository\BundleRepository"/>
             <argument type="service" id="Zentlix\MainBundle\Domain\Site\Repository\SiteRepository"/>
-            <tag name="form.type"/>
-        </service>
-
-        <service id="zentlix_route.form_type.route_type" class="Zentlix\RouteBundle\UI\Http\Web\FormType\RouteType">
-            <argument type="service" id="translator"/>
             <tag name="form.type"/>
         </service>
     </services>

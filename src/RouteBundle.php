@@ -28,7 +28,7 @@ class RouteBundle extends Bundle implements ZentlixBundleInterface
 
     public function getVersion(): string
     {
-        return '0.1.1';
+        return '1.0.0';
     }
 
     public function getDeveloper(): array
@@ -44,7 +44,9 @@ class RouteBundle extends Bundle implements ZentlixBundleInterface
     public function configureRights(): array
     {
         return [
+            Command\Route\CreateCommand::class => 'zentlix_route.route.create.process',
             Command\Route\UpdateCommand::class => 'zentlix_route.route.update.process',
+            Command\Route\DeleteCommand::class => 'zentlix_route.route.delete.process'
         ];
     }
 }

@@ -13,12 +13,11 @@ declare(strict_types=1);
 namespace Zentlix\RouteBundle\Application\Command\Route;
 
 use Symfony\Component\Validator\Constraints;
-use Zentlix\MainBundle\Application\Command\DynamicPropertyCommand;
-use Zentlix\MainBundle\Domain\Site\Entity\Site;
 use Zentlix\MainBundle\Infrastructure\Share\Bus\CommandInterface;
+use Zentlix\MainBundle\Domain\Site\Entity\Site;
 use Zentlix\RouteBundle\Domain\Route\Entity\Route;
 
-class Command extends DynamicPropertyCommand implements CommandInterface
+class Command implements CommandInterface
 {
     /** @Constraints\NotBlank() */
     public ?string $url;
@@ -27,16 +26,22 @@ class Command extends DynamicPropertyCommand implements CommandInterface
     /** @Constraints\NotBlank() */
     public ?string $action;
     /** @Constraints\NotBlank() */
-    public ?string $title;
+    public ?string $title = null;
     public ?string $name;
     public ?string $template = null;
+    public bool $active = true;
     /** @var int|Site */
     public $site;
-    public ?int $bundle;
+    public ?int $bundle = null;
     protected ?Route $entity;
 
     public function getEntity(): Route
     {
         return $this->entity;
+    }
+
+    public function setSite($site): void
+    {
+        $this->site = (int) $site;
     }
 }

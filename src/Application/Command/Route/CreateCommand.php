@@ -12,25 +12,18 @@ declare(strict_types=1);
 
 namespace Zentlix\RouteBundle\Application\Command\Route;
 
-use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Validator\Constraints;
-use Zentlix\MainBundle\Application\Command\CreateCommandInterface;
+use Zentlix\MainBundle\Infrastructure\Share\Bus\CreateCommandInterface;
+use Zentlix\RouteBundle\UI\Http\Web\Controller\TemplateController;
 
 class CreateCommand extends Command implements CreateCommandInterface
 {
     /** @Constraints\NotBlank() */
-    public ?string $name;
+    public ?string $name = null;
 
-    public function __construct(Request $request = null)
+    public function __construct()
     {
-        if($request) {
-            $this->url = $request->request->get('url');
-            $this->controller = $request->request->get('controller');
-            $this->action = $request->request->get('action');
-            $this->title = $request->request->get('title');
-            $this->name = $request->request->get('name');
-            $this->template = $request->request->get('template');
-            $this->site = (int) $request->request->get('site');
-        }
+        $this->controller = TemplateController::class;
+        $this->action     = 'resolve';
     }
 }

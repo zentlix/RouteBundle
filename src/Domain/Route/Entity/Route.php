@@ -50,6 +50,9 @@ class Route implements Eventable
     /** @Mapping\Column(type="string", length=255, nullable=true) */
     private $template;
 
+    /** @Mapping\Column(type="boolean", options={"default": "1"}) */
+    private $active;
+
     /**
      * @var Site
      * @Mapping\ManyToOne(targetEntity="Zentlix\MainBundle\Domain\Site\Entity\Site", inversedBy="routes")
@@ -129,6 +132,16 @@ class Route implements Eventable
         return $this;
     }
 
+    public function getBundle(): Bundle
+    {
+        return $this->bundle;
+    }
+
+    public function isActive(): bool
+    {
+        return $this->active;
+    }
+
     public function isUrlEqual(string $url): bool
     {
         return self::cleanUrl($url) === self::cleanUrl($this->url);
@@ -148,11 +161,12 @@ class Route implements Eventable
             $command->url = substr($command->url, 1);
         }
 
-        $this->url = $command->url;
+        $this->url        = $command->url;
         $this->controller = $command->controller;
-        $this->action = $command->action;
-        $this->title = $command->title;
-        $this->site = $command->site;
-        $this->template = $command->template;
+        $this->action     = $command->action;
+        $this->title      = $command->title;
+        $this->site       = $command->site;
+        $this->template   = $command->template;
+        $this->active     = $command->active;
     }
 }

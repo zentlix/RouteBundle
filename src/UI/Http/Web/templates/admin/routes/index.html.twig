@@ -1,0 +1,105 @@
+{% extends '@MainBundle/admin/layouts/base.html.twig' %}
+
+{% block title %}{{ 'zentlix_route.route.routes' | trans }}{% endblock %}
+
+{% block breadcrumbs %}
+    <li class="breadcrumb-item"><a href="{{ path('admin.index') }}">{{ 'zentlix_main.control_panel' | trans }}</a></li>
+    <li class="breadcrumb-item active">{{ 'zentlix_route.route.routes' | trans }}</li>
+{% endblock %}
+
+{% block body %}
+    <div class="row">
+        <div class="card w-100">
+            <div class="card-header">
+                {{ 'zentlix_route.route.routes' | trans }}
+            </div>
+            <div class="card-body">
+                <div class="alert alert-info">{{ 'zentlix_route.route.info' | trans | raw }}</div>
+                <div class="row">
+                    <div class="col-lg-3 col-md-4 col-sm-12">
+                        <div class="form-group">
+                            <label class="required" for="paths_site">{{ 'zentlix_main.site.site' | trans }}</label>
+                            <select id="paths_site" name="paths_site" class="form-control">
+                                {% for title, id in sites %}
+                                    <option value="{{ id }}"
+                                            {% if id == site_id %}selected="selected"{% endif %}>
+                                        {{ title }}
+                                    </option>
+                                {% endfor %}
+                            </select>
+                        </div>
+                        <div class="p-3" style="border: 1px solid #d8dbe0;">
+                            {{ form_start(create_form, {'action': path('admin.route.create')}) }}
+                            {{ form_widget(create_form) }}
+                            <div class="">
+                                <button class="btn btn-sm btn-primary" type="submit">
+                                    <i class="fa fa-dot-circle-o"></i> {{ 'zentlix_main.add' | trans }}
+                                </button>
+                            </div>
+                            {% if app.request.get('site') is not empty %}
+                                <input type="hidden" name="site" value="{{ app.request.get('site') }}">
+                            {% endif %}
+                            {{ form_end(create_form) }}
+                        </div>
+                    </div>
+                    <div class="col-lg-9 col-md-8 col-sm-12 pt-4 pt-md-4">
+                        <div class="accordion" id="path-items" role="tablist">
+                            {% for route in routes %}
+                                {% if route.site.id == site_id %}
+                                    <div class="card mb-0">
+                                        <div class="card-header" id="heading-{{ route.id }}">
+                                            <div class="menu-title">
+                                                <a data-toggle="collapse" href="#path-{{ route.id }}" aria-expanded="true" aria-controls="path-{{ route.id }}" role="button" class="accordion-toggle">
+                                                    <i class="c-icon c-icon-2xl cil-chevron-bottom float-right"></i>
+                                                    {{ route.title | trans }}
+                                                </a>
+                                            </div>
+                                        </div>
+                                        <div class="collapse " id="path-{{ route.id }}" aria-labelledby="heading-{{ route.id }}" data-parent="#path-items">
+                                            <div class="p-3">
+                                                {{ form_start(forms[route.id], {'action': path('admin.route.update', {'id': route.id})}) }}
+                                                {{ form_widget(forms[route.id]) }}
+                                                <div class="">
+                                                    <button class="btn btn-sm btn-primary" type="submit">
+                                                        <i class="fa fa-dot-circle-o"></i> {{ 'zentlix_main.save' | trans }}
+                                                    </button>
+                                                    {% if route.controller == 'Zentlix\\RouteBundle\\UI\\Http\\Web\\Controller\\TemplateController' %}
+                                                        {% include '@MainBundle/admin/partials/delete_confirmation.html.twig' with {
+                                                            'title': 'zentlix_route.route.delete.action',
+                                                            'confirmation': 'zentlix_route.route.delete.confirmation',
+                                                            'path': path('admin.route.delete', {'id': route.id})
+                                                        } %}
+                                                    {% endif %}
+                                                </div>
+                                                {% if app.request.get('site') is not empty %}
+                                                    <input type="hidden" name="site" value="{{ app.request.get('site') }}">
+                                                {% endif %}
+                                                {{ form_end(forms[route.id]) }}
+                                            </div>
+                                        </div>
+                                    </div>
+                                {% endif %}
+                            {% endfor %}
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="card-footer">
+                <button class="btn btn-sm btn-primary" type="submit">
+                    <i class="fa fa-dot-circle-o"></i> {{ 'zentlix_main.save' | trans }}
+                </button>
+                <a href="{{ path('admin.index') }}" class="btn btn-sm btn-secondary" type="button">{{ 'zentlix_main.cancel' | trans }}</a>
+            </div>
+        </div>
+    </div>
+    <script>
+        $(document).ready(function () {
+            $('#paths_site').on('change', function () {
+                var url = window.location.href;
+                url = url.split('?');
+                url[0] += '?site=' + $('#paths_site').val();
+                window.location.href = url[0];
+            });
+        })
+    </script>
+{% endblock %}

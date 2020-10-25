@@ -50,6 +50,11 @@ class RouteRepository extends ServiceEntityRepository
         return $this->findBy(['site' => $siteId]);
     }
 
+    public function findActive(): array
+    {
+        return $this->findBy(['active' => true]);
+    }
+
     public function findOneByName(string $name): ?Route
     {
         return $this->findOneBy(['name' => $name]);

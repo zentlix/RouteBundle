@@ -10,7 +10,7 @@
 
 declare(strict_types=1);
 
-namespace Zentlix\RouteBundle;
+namespace Zentlix\RouteBundle\Infrastructure\Share;
 
 interface RouteSupportInterface
 {

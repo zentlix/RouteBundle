@@ -12,21 +12,22 @@ declare(strict_types=1);
 
 namespace Zentlix\RouteBundle\Application\Command\Route;
 
-use Symfony\Component\HttpFoundation\Request;
-use Zentlix\MainBundle\Application\Command\UpdateCommandInterface;
+use Zentlix\MainBundle\Infrastructure\Share\Bus\UpdateCommandInterface;
 use Zentlix\RouteBundle\Domain\Route\Entity\Route;
 
 class UpdateCommand extends Command implements UpdateCommandInterface
 {
-    public function __construct(Route $route, Request $request)
+    public function __construct(Route $route)
     {
-        $this->entity = $route;
-        $this->url = $request->request->get('url', $route->getUrl());
-        $this->controller = $request->request->get('controller', $route->getController());
-        $this->action = $request->request->get('action', $route->getAction());
-        $this->title = $request->request->get('title', $route->getTitle());
-        $this->name = $request->request->get('name', $route->getName());
-        $this->template = $request->request->get('template', $route->getTemplate());
-        $this->site = (int) $request->request->get('site', $route->getSite()->getId());
+        $this->entity     = $route;
+        $this->url        = $route->getUrl();
+        $this->title      = $route->getTitle();
+        $this->name       = $route->getName();
+        $this->template   = $route->getTemplate();
+        $this->active     = $route->isActive();
+        $this->site       = $route->getSite()->getId();
+        $this->bundle     = $route->getBundle()->getId();
+        $this->controller = $route->getController();
+        $this->action     = $route->getAction();
     }
 }

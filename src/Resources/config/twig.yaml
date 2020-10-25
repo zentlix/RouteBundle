@@ -1,0 +1,4 @@
+twig:
+  form_themes: ['@MainBundle/admin/form_themes/bootstrap_4_layout.html.twig']
+  paths:
+    '%kernel.project_dir%/vendor/zentlix/route-bundle/src/UI/Http/Web/templates': RouteBundle
