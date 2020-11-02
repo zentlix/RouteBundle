@@ -5,10 +5,11 @@
         http://symfony.com/schema/dic/services/services-1.0.xsd">
 
     <services>
-        <service id="Zentlix\RouteBundle\EventSubscriber\InstallBundleSubscriber">
+        <service id="Zentlix\RouteBundle\EventSubscriber\BundleSubscriber">
             <argument type="service" id="zentlix_main.bundles"/>
             <argument type="service" id="zentlix_route.service.routes"/>
             <argument type="service" id="Zentlix\MainBundle\Domain\Site\Repository\SiteRepository"/>
+            <argument type="service" id="Zentlix\MainBundle\Domain\Bundle\Repository\BundleRepository"/>
             <tag name="kernel.event_subscriber"/>
         </service>
 

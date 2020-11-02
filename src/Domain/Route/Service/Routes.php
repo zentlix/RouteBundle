@@ -60,10 +60,20 @@ class Routes
 
     public function removeSiteRoutes(int $siteId): void
     {
-        $routeRepository = $this->entityManager->getRepository(Route::class);
-        $routes = $routeRepository->findBySiteId($siteId);
+        $repository = $this->entityManager->getRepository(Route::class);
 
-        foreach ($routes as $route) {
+        foreach ($repository->findBySiteId($siteId) as $route) {
+            $this->entityManager->remove($route);
+        }
+
+        $this->entityManager->flush();
+    }
+
+    public function removeBundleRoutes(int $bundleId): void
+    {
+        $repository = $this->entityManager->getRepository(Route::class);
+
+        foreach ($repository->findByBundleId($bundleId) as $route) {
             $this->entityManager->remove($route);
         }
 
