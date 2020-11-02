@@ -28,7 +28,7 @@ class RouteBundle extends Bundle implements ZentlixBundleInterface
 
     public function getVersion(): string
     {
-        return '1.0.0';
+        return '1.1.1';
     }
 
     public function getDeveloper(): array
