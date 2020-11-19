@@ -38,7 +38,7 @@
         </service>
 
         <!-- Query bus -->
-        <service id="zentlix_route.template.template_query_handler" class="Zentlix\RouteBundle\Application\Query\Template\TemplateQueryHandler">
+        <service id="zentlix_route.template.template_handler" class="Zentlix\RouteBundle\Application\Query\Template\TemplateHandler">
             <argument type="service" id="Zentlix\RouteBundle\Domain\Route\Repository\RouteRepository"/>
             <tag name="messenger.message_handler"/>
         </service>

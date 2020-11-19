@@ -16,15 +16,10 @@ use Zentlix\MainBundle\Infrastructure\Share\Bus\QueryInterface;
 
 class TemplateQuery implements QueryInterface
 {
-    private string $route;
+    public string $route;
 
     public function __construct(string $route)
     {
         $this->route = $route;
-    }
-
-    public function getRoute(): string
-    {
-        return $this->route;
     }
 }

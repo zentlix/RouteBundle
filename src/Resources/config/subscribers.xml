@@ -9,7 +9,6 @@
             <argument type="service" id="zentlix_main.bundles"/>
             <argument type="service" id="zentlix_route.service.routes"/>
             <argument type="service" id="Zentlix\MainBundle\Domain\Site\Repository\SiteRepository"/>
-            <argument type="service" id="Zentlix\MainBundle\Domain\Bundle\Repository\BundleRepository"/>
             <tag name="kernel.event_subscriber"/>
         </service>
 

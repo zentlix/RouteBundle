@@ -15,7 +15,6 @@ namespace Zentlix\RouteBundle\EventSubscriber;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Zentlix\MainBundle\Domain\Bundle\Event\AfterInstall;
 use Zentlix\MainBundle\Domain\Bundle\Event\BeforeRemove;
-use Zentlix\MainBundle\Domain\Bundle\Repository\BundleRepository;
 use Zentlix\MainBundle\Domain\Bundle\Service\Bundles;
 use Zentlix\MainBundle\Domain\Site\Repository\SiteRepository;
 use Zentlix\RouteBundle\Domain\Route\Service\Routes;
@@ -26,18 +25,14 @@ class BundleSubscriber implements EventSubscriberInterface
     private Bundles $bundles;
     private Routes $routes;
     private SiteRepository $siteRepository;
-    private BundleRepository $bundleRepository;
 
     public function __construct(Bundles $bundles,
                                 Routes $routes,
-                                SiteRepository $siteRepository,
-                                BundleRepository $bundleRepository
-                                )
+                                SiteRepository $siteRepository)
     {
         $this->bundles = $bundles;
         $this->routes = $routes;
         $this->siteRepository = $siteRepository;
-        $this->bundleRepository = $bundleRepository;
     }
 
     public static function getSubscribedEvents(): array
@@ -62,8 +57,6 @@ class BundleSubscriber implements EventSubscriberInterface
 
     public function onBeforeRemove(BeforeRemove $beforeRemove): void
     {
-        $bundle = $this->bundleRepository->getOneByClass(get_class($beforeRemove->getCommand()->getBundle()));
-
-        $this->routes->removeBundleRoutes($bundle->getId());
+        $this->routes->removeBundleRoutes($beforeRemove->getCommand()->getBundle()->getId());
     }
 }

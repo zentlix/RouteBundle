@@ -15,7 +15,7 @@ namespace Zentlix\RouteBundle\Application\Query\Template;
 use Zentlix\MainBundle\Infrastructure\Share\Bus\QueryHandlerInterface;
 use Zentlix\RouteBundle\Domain\Route\Repository\RouteRepository;
 
-class TemplateQueryHandler implements QueryHandlerInterface
+class TemplateHandler implements QueryHandlerInterface
 {
     private RouteRepository $routeRepository;
 
@@ -26,7 +26,7 @@ class TemplateQueryHandler implements QueryHandlerInterface
 
     public function __invoke(TemplateQuery $templateQuery)
     {
-        $route = $this->routeRepository->findOneByName($templateQuery->getRoute());
+        $route = $this->routeRepository->findOneByName($templateQuery->route);
 
         return $route ? $route->getTemplate() : null;
     }
