@@ -57,6 +57,6 @@ class BundleSubscriber implements EventSubscriberInterface
 
     public function onBeforeRemove(BeforeRemove $beforeRemove): void
     {
-        $this->routes->removeBundleRoutes($beforeRemove->getCommand()->getBundle()->getId());
+        $this->routes->removeBundleRoutes($beforeRemove->getCommand()->getBundle()->getId()->toString());
     }
 }

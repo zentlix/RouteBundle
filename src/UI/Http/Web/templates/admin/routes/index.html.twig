@@ -20,7 +20,7 @@
                         <div class="form-group">
                             <label class="required" for="paths_site">{{ 'zentlix_main.site.site' | trans }}</label>
                             <select id="paths_site" name="paths_site" class="form-control">
-                                {% for title, id in sites %}
+                                {% for id, title in sites %}
                                     <option value="{{ id }}"
                                             {% if id == site_id %}selected="selected"{% endif %}>
                                         {{ title }}
@@ -85,7 +85,7 @@
                 </div>
             </div>
             <div class="card-footer">
-                <button class="btn btn-sm btn-primary" type="submit">
+                <button class="btn btn-sm btn-primary routes-submit" type="submit">
                     <i class="fa fa-dot-circle-o"></i> {{ 'zentlix_main.save' | trans }}
                 </button>
                 <a href="{{ path('admin.index') }}" class="btn btn-sm btn-secondary" type="button">{{ 'zentlix_main.cancel' | trans }}</a>
@@ -99,6 +99,10 @@
                 url = url.split('?');
                 url[0] += '?site=' + $('#paths_site').val();
                 window.location.href = url[0];
+            });
+
+            $('.routes-submit').on('click', function () {
+                $('#main form').submit();
             });
         })
     </script>

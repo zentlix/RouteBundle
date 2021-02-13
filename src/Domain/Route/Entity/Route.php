@@ -55,7 +55,7 @@ class Route implements Eventable
 
     /**
      * @var Site
-     * @Mapping\ManyToOne(targetEntity="Zentlix\MainBundle\Domain\Site\Entity\Site", inversedBy="routes")
+     * @Mapping\ManyToOne(targetEntity="Zentlix\MainBundle\Domain\Site\Entity\Site")
      * @Mapping\JoinColumn(name="site_id", referencedColumnName="id", nullable=false)
      */
     private $site;

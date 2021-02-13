@@ -14,9 +14,9 @@ namespace Zentlix\RouteBundle\Application\Command\Route;
 
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
-use Zentlix\MainBundle\Domain\Site\Specification\ExistTemplateFileSpecification;
 use Zentlix\MainBundle\Domain\Site\Repository\SiteRepository;
 use Zentlix\MainBundle\Domain\Site\Specification\ExistSiteSpecification;
+use Zentlix\MainBundle\Domain\Template\Specification\ExistFileSpecification;
 use Zentlix\MainBundle\Infrastructure\Share\Bus\CommandHandlerInterface;
 use Zentlix\RouteBundle\Domain\Cache\Service\Cache;
 use Zentlix\RouteBundle\Domain\Route\Event\Route\BeforeUpdate;
@@ -29,7 +29,7 @@ class UpdateHandler implements CommandHandlerInterface
     private EventDispatcherInterface $eventDispatcher;
     private UniqueUrlSpecification $uniqueUrlSpecification;
     private ExistSiteSpecification $existSiteSpecification;
-    private ExistTemplateFileSpecification $existTemplateFileSpecification;
+    private ExistFileSpecification $existFileSpecification;
     private SiteRepository $siteRepository;
     private Cache $cache;
 
@@ -37,7 +37,7 @@ class UpdateHandler implements CommandHandlerInterface
                                 EventDispatcherInterface $eventDispatcher,
                                 UniqueUrlSpecification $uniqueUrlSpecification,
                                 ExistSiteSpecification $existSiteSpecification,
-                                ExistTemplateFileSpecification $existTemplateFileSpecification,
+                                ExistFileSpecification $existFileSpecification,
                                 SiteRepository $siteRepository,
                                 Cache $cache)
     {
@@ -45,7 +45,7 @@ class UpdateHandler implements CommandHandlerInterface
         $this->eventDispatcher = $eventDispatcher;
         $this->uniqueUrlSpecification = $uniqueUrlSpecification;
         $this->existSiteSpecification = $existSiteSpecification;
-        $this->existTemplateFileSpecification = $existTemplateFileSpecification;
+        $this->existFileSpecification = $existFileSpecification;
         $this->siteRepository = $siteRepository;
         $this->cache = $cache;
     }
@@ -62,7 +62,7 @@ class UpdateHandler implements CommandHandlerInterface
         $command->site = $this->siteRepository->get($command->site);
 
         if($command->template) {
-            $this->existTemplateFileSpecification->isExist($command->site->getTemplate()->getFolder() . '/' . $command->template);
+            $this->existFileSpecification->isExist($command->site->getTemplate()->getFolder() . '/' . $command->template);
         }
 
         $this->eventDispatcher->dispatch(new BeforeUpdate($command));

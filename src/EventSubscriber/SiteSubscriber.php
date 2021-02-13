@@ -15,8 +15,8 @@ namespace Zentlix\RouteBundle\EventSubscriber;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Zentlix\MainBundle\Application\Command\Site\DeleteCommand;
 use Zentlix\MainBundle\Domain\Site\Entity\Site;
-use Zentlix\MainBundle\Domain\Site\Event\Site\AfterCreate;
-use Zentlix\MainBundle\Domain\Site\Event\Site\BeforeDelete;
+use Zentlix\MainBundle\Domain\Site\Event\AfterCreate;
+use Zentlix\MainBundle\Domain\Site\Event\BeforeDelete;
 use Zentlix\RouteBundle\Domain\Route\Service\Routes;
 
 class SiteSubscriber implements EventSubscriberInterface
@@ -49,6 +49,6 @@ class SiteSubscriber implements EventSubscriberInterface
         /** @var DeleteCommand $command */
         $command = $beforeDelete->getCommand();
 
-        $this->routes->removeSiteRoutes($command->site->getId());
+        $this->routes->removeSiteRoutes($command->site->getId()->toString());
     }
 }

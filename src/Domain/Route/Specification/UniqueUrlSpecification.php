@@ -28,13 +28,13 @@ final class UniqueUrlSpecification
         $this->routeRepository = $routeRepository;
     }
 
-    public function isUnique(string $url, int $siteId): void
+    public function isUnique(string $url, $siteId): void
     {
         $routes = $this->routeRepository->wherePathLike(Route::cleanUrl($url));
 
         /** @var Route $route */
         foreach ($routes as $route) {
-            if($route->getSite()->getId() === $siteId) {
+            if($route->getSite()->getId()->toString() === $siteId) {
                 if($route->getCleanUrl() === Route::cleanUrl($url)) {
                     throw new NonUniqueResultException(sprintf($this->translator->trans('zentlix_route.route.already_exist'), $url));
                 }
@@ -42,7 +42,7 @@ final class UniqueUrlSpecification
         }
     }
 
-    public function __invoke(string $url, int $siteId): void
+    public function __invoke(string $url, $siteId): void
     {
         $this->isUnique($url, $siteId);
     }

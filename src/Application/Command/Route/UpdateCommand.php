@@ -25,8 +25,8 @@ class UpdateCommand extends Command implements UpdateCommandInterface
         $this->name       = $route->getName();
         $this->template   = $route->getTemplate();
         $this->active     = $route->isActive();
-        $this->site       = $route->getSite()->getId();
-        $this->bundle     = $route->getBundle()->getId();
+        $this->site       = $route->getSite()->getId()->toString();
+        $this->bundle     = $route->getBundle()->getId()->toString();
         $this->controller = $route->getController();
         $this->action     = $route->getAction();
     }

@@ -44,15 +44,15 @@ class Form extends AbstractForm
     {
         /** @var CreateCommand $command */
         $command = $builder->getData();
-        $routeBundleId = $this->bundleRepository->getOneByClass(RouteBundle::class)->getId();
+        $routeBundleId = $this->bundleRepository->getOneByClass(RouteBundle::class)->getId()->toString();
         if(is_null($command->site)) {
-            $command->site = array_values($this->siteRepository->assoc())[0];
+            $command->site = array_keys($this->siteRepository->assoc())[0];
         }
 
         $builder
             ->add('url', Type\TextType::class, [
                 'label'   =>'zentlix_main.site.site_url',
-                'prepend' => (int) $command->site > 0 ? 'https://' . $this->siteRepository->get($command->site)->getUrl() . '/' : ''
+                'prepend' => 'https://' . $this->siteRepository->get($command->site)->getUrl() . '/'
             ])
             ->add('active', Type\CheckboxType::class, [
                 'label' => 'zentlix_route.active'
@@ -74,8 +74,8 @@ class Form extends AbstractForm
                     'data' => $routeBundleId
                 ])
                 ->add('template', Type\ChoiceType::class, [
-                    'choices'  => $this->siteRepository->get($command->site)->getTemplate()->getConfigParam('route'),
-                    'label'    => 'zentlix_main.template'
+                    'choices' => $this->siteRepository->get($command->site)->getTemplate()->getConfigParam('route'),
+                    'label'   => 'zentlix_main.template.template'
                 ]);
         }
     }

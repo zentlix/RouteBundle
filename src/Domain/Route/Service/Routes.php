@@ -51,14 +51,14 @@ class Routes
     public function installRoutesForSite(array $commands, Site $site, Bundle $bundle): void
     {
         foreach ($commands as $command) {
-            $command->site = $site->getId();
-            $command->bundle = $bundle->getId();
+            $command->site = $site->getId()->toString();
+            $command->bundle = $bundle->getId()->toString();
 
             $this->commandBus->handle($command);
         }
     }
 
-    public function removeSiteRoutes(int $siteId): void
+    public function removeSiteRoutes(string $siteId): void
     {
         $repository = $this->entityManager->getRepository(Route::class);
 
@@ -69,7 +69,7 @@ class Routes
         $this->entityManager->flush();
     }
 
-    public function removeBundleRoutes(int $bundleId): void
+    public function removeBundleRoutes(string $bundleId): void
     {
         $repository = $this->entityManager->getRepository(Route::class);
 

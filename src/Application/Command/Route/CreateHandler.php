@@ -17,7 +17,7 @@ use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Zentlix\MainBundle\Domain\Bundle\Specification\ExistBundleSpecification;
 use Zentlix\MainBundle\Domain\Site\Repository\SiteRepository;
 use Zentlix\MainBundle\Domain\Site\Specification\ExistSiteSpecification;
-use Zentlix\MainBundle\Domain\Site\Specification\ExistTemplateFileSpecification;
+use Zentlix\MainBundle\Domain\Template\Specification\ExistFileSpecification;
 use Zentlix\MainBundle\Infrastructure\Share\Bus\CommandHandlerInterface;
 use Zentlix\RouteBundle\Domain\Cache\Service\Cache;
 use Zentlix\RouteBundle\Domain\Route\Entity\Route;
@@ -34,7 +34,7 @@ class CreateHandler implements CommandHandlerInterface
     private UniqueNameSpecification $uniqueNameSpecification;
     private ExistBundleSpecification $existBundleSpecification;
     private ExistSiteSpecification $existSiteSpecification;
-    private ExistTemplateFileSpecification $existTemplateFileSpecification;
+    private ExistFileSpecification $existFileSpecification;
     private SiteRepository $siteRepository;
     private Cache $cache;
 
@@ -44,7 +44,7 @@ class CreateHandler implements CommandHandlerInterface
                                 UniqueNameSpecification $uniqueNameSpecification,
                                 ExistBundleSpecification $existBundleSpecification,
                                 ExistSiteSpecification $existSiteSpecification,
-                                ExistTemplateFileSpecification $existTemplateFileSpecification,
+                                ExistFileSpecification $existFileSpecification,
                                 SiteRepository $siteRepository,
                                 Cache $cache)
     {
@@ -54,7 +54,7 @@ class CreateHandler implements CommandHandlerInterface
         $this->uniqueNameSpecification = $uniqueNameSpecification;
         $this->existBundleSpecification = $existBundleSpecification;
         $this->existSiteSpecification = $existSiteSpecification;
-        $this->existTemplateFileSpecification = $existTemplateFileSpecification;
+        $this->existFileSpecification = $existFileSpecification;
         $this->siteRepository = $siteRepository;
         $this->cache = $cache;
     }
@@ -67,7 +67,7 @@ class CreateHandler implements CommandHandlerInterface
         $this->existSiteSpecification->isExist($command->site);
 
         if($command->template) {
-            $this->existTemplateFileSpecification->isExist(
+            $this->existFileSpecification->isExist(
                 $this->siteRepository->get($command->site)->getTemplate()->getFolder() . '/' . $command->template
             );
         }

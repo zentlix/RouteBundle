@@ -16,7 +16,7 @@ use Doctrine\Persistence\Event\LifecycleEventArgs;
 use Zentlix\MainBundle\Domain\Bundle\Repository\BundleRepository;
 use Zentlix\MainBundle\Domain\Site\Repository\SiteRepository;
 use Zentlix\RouteBundle\Domain\Route\Entity\Route;
-use function is_int;
+use function is_string;
 
 class RouteListener
 {
@@ -41,11 +41,11 @@ class RouteListener
 
         $refNameProperty->setValue($route, $route->getName() . '_' . $refSiteProperty->getValue($route));
 
-        if(is_int($refBundleProperty->getValue($route))) {
+        if(is_string($refBundleProperty->getValue($route))) {
             $refBundleProperty->setValue($route, $this->bundleRepository->get($refBundleProperty->getValue($route)));
         }
 
-        if(is_int($refSiteProperty->getValue($route))) {
+        if(is_string($refSiteProperty->getValue($route))) {
             $refSiteProperty->setValue($route, $this->siteRepository->get($refSiteProperty->getValue($route)));
         }
     }

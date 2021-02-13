@@ -9,8 +9,6 @@
 
         <service id="zentlix_route.controller.admin.route_controller"
                  class="Zentlix\RouteBundle\UI\Http\Web\Controller\Admin\RouteController">
-            <argument type="service" id="translator"/>
-            <argument type="service" id="Symfony\Component\Security\Csrf\CsrfTokenManagerInterface"/>
             <argument type="service" id="zentlix_main.bundles" />
             <argument type="service" id="zentlix_main.command_bus"/>
             <argument type="service" id="zentlix_main.query_bus"/>

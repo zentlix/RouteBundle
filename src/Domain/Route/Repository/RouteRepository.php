@@ -45,12 +45,12 @@ class RouteRepository extends ServiceEntityRepository
             ->execute();
     }
 
-    public function findBySiteId(int $siteId): array
+    public function findBySiteId($siteId): array
     {
         return $this->findBy(['site' => $siteId]);
     }
 
-    public function findByBundleId(int $bundleId): array
+    public function findByBundleId($bundleId): array
     {
         return $this->findBy(['bundle' => $bundleId]);
     }

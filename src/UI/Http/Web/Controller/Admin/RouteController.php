@@ -32,8 +32,13 @@ class RouteController extends ResourceController
     public function index(RouteRepository $routeRepository, SiteRepository $siteRepository, Request $request): Response
     {
         $sites = $siteRepository->assoc();
-        $siteId = (int) $request->get('site', array_values($sites)[0]);
-        $routes = $routeRepository->findBySiteId($siteId);
+        $siteId = $request->get('site', array_keys($sites)[0]);
+
+        try {
+            $routes = $routeRepository->findBySiteId($siteId);
+        } catch (\Exception $exception) {
+            throw $this->createNotFoundException('Site not found!');
+        }
 
         $forms = [];
         foreach ($routes as $route) {
@@ -64,7 +69,7 @@ class RouteController extends ResourceController
 
             if ($form->isSubmitted() && $form->isValid()) {
                 $this->exec($command);
-                $this->addFlash('success', $this->translator->trans('zentlix_route.route.create.success'));
+                $this->addFlash('success', 'zentlix_route.route.create.success');
             }
         } catch (\Exception $e) {
             return $this->redirectError($e->getMessage());
@@ -85,7 +90,7 @@ class RouteController extends ResourceController
 
             if ($form->isSubmitted() && $form->isValid()) {
                 $this->exec($command);
-                $this->addFlash('success', $this->translator->trans('zentlix_route.route.update.success'));
+                $this->addFlash('success', 'zentlix_route.route.update.success');
             }
         } catch (\Exception $e) {
             return $this->redirectError($e->getMessage());

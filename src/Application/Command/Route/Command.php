@@ -30,9 +30,9 @@ class Command implements CommandInterface
     public ?string $name;
     public ?string $template = null;
     public bool $active = true;
-    /** @var int|Site */
+    /** @var string|Site */
     public $site;
-    public ?int $bundle = null;
+    public ?string $bundle = null;
     protected ?Route $entity;
 
     public function getEntity(): Route
